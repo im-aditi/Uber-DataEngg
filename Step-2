@@ -1,0 +1,95 @@
+-- Connect to Postgres Database on AWS RDS
+psql -h postgres-1.cvp1daggwpce.us-east-1.rds.amazonaws.com -U postgres -d postgres -p 5432
+
+-- Copy data from local CSV into uber_data_dump table in RDS
+\copy uber_data_dump FROM '/Users/aditi/Downloads/uber_data.csv' DELIMITER ',' CSV HEADER
+
+-- Start inserting Dimension table data
+
+-- Location data
+insert into loc_dim(longitude, latitude)
+select dropoff_longitude, dropoff_latitude from uber_data_dump GROUP by dropoff_longitude, dropoff_latitude;
+
+-- Rate Code data
+insert into rate_dim values(1, 'Standard rate');
+insert into rate_dim values(2, 'JFK');
+insert into rate_dim values(3, 'Newark');
+insert into rate_dim values(4, 'Nassau/Westchester');
+insert into rate_dim values(5, 'Negotiated fare');
+insert into rate_dim values(6, 'Group ride');
+
+-- Payment Type data
+insert into payment_type values(1, 'Credit Card');
+insert into payment_type values(2, 'Cash');
+insert into payment_type values(3, 'No Charge');
+insert into payment_type values(4, 'Dispute');
+insert into payment_type values(5, 'Unknown');
+insert into payment_type values(6, 'Voided Trip');
+
+-- Vendor Details
+insert into vendor_dim values(1, 'CMT', 'Creative Mobile Technologies, LLC');
+insert into vendor_dim values(2, 'VFI', 'VeriFone Inc.');
+
+-- Date data
+insert into date_dim(date_time, day, month, year, hour, min, sec) select date_time, date_part('day',date_time), 
+date_part('month',date_time),
+date_part('year',date_time),
+date_part('hour',date_time),
+date_part('minute',date_time),
+date_part('second',date_time) from
+(
+    select tpep_pickup_datetime as date_time from uber_data_dump group by tpep_pickup_datetime
+    union
+    select tpep_dropoff_datetime as date_time from uber_data_dump group by tpep_dropoff_datetime
+) as dates group by date_time;
+
+-- Insert fact table details
+insert into uber_fact (VendorID ,
+        pickup_date_id ,
+        drop_date_id ,
+        pickup_loc_id ,
+        drop_loc_id ,
+        rate_code_id ,
+        payment_type_id ,
+        passenger_count	,
+        store_and_fwd_flag ,
+        trip_distance ,
+        fare_amount ,
+        extra ,
+        mta_tax	,
+        tip_amount ,
+        tolls_amount ,
+        improvement_surcharge ,
+        total_amount)
+select 
+a.VendorID ,
+        b.date_id ,
+        c.date_id ,
+        d.loc_id ,
+        e.loc_id ,
+        f.rate_code_id ,
+        g.payment_type_code ,
+        a.passenger_count	,
+        a.store_and_fwd_flag ,
+        a.trip_distance ,
+        a.fare_amount ,
+        a.extra ,
+        a.mta_tax	,
+        a.tip_amount ,
+        a.tolls_amount ,
+        a.improvement_surcharge ,
+        a.total_amount from uber_fact a
+        join date_dim b
+        on a.tpep_pickup_datetime = b.date_time
+        join date_dim c
+        on a.tpep_dropoff_datetime = c.date_time
+        join loc_dim d
+        on a.pickup_longitude = d.longitude
+        and a.pickup_latitude = d.latitude
+        join loc_dim e
+        on a.dropoff_longitude = e.longitude
+        and a.dropoff_latitude = e.latitude
+        join rate_dim f
+        on a.RatecodeID = f.rate_code_id
+        join payment_type g
+        on a.payment_type = g.payment_type_code;
