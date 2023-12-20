@@ -13,7 +13,7 @@ Data Model:
 <br><br>
 Link: https://app.diagrams.net/#G1cpJ7ZjPlVsL3VrL5dxiFmJbyjGoe2Mn0
 <br><br>
-<b>Step 3: Create a Data Flow Diagram</b><br>
+<b>Step 3: Create a Data Flow Diagram</b><br><br>
 <img width="452" alt="Screenshot 2023-12-20 at 3 54 57 PM" src="https://github.com/im-aditi/Uber-DataEngg/assets/64597243/f37a5a01-b64c-442c-a162-bdba9c6e3d79">
 <br><br>
 <b>Step 4: Create a Postgres RDS on AWS.</b>
