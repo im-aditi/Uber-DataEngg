@@ -6,4 +6,5 @@ The data is extracted from Postgres RDS and pushed into Amazon S3 bucket and Ama
 
 <img width="1363" alt="Screenshot 2023-12-19 at 8 20 55 PM" src="https://github.com/im-aditi/Uber-DataEngg/assets/64597243/d8b8245b-e8e1-4b02-ae21-599fae2ad28e">
 
+Job run logs:
 <img width="1357" alt="Screenshot 2023-12-19 at 8 21 45 PM" src="https://github.com/im-aditi/Uber-DataEngg/assets/64597243/3506aa88-1d09-498e-8f9b-892f903b2b83">
