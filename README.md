@@ -37,3 +37,6 @@ Amazon Redshift is a fully managed, cloud-based data warehousing service provide
 File: Redshift.md
 <br><br>
 <img width="856" alt="image" src="https://github.com/im-aditi/Uber-DataEngg/assets/64597243/6324d594-e139-4a41-af6d-b9b3047b8cc2">
+
+<br><br><br>
+Credits: https://www.youtube.com/watch?v=WpQECq5Hx9g
