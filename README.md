@@ -31,7 +31,7 @@ AWS Glue simplifies the process of preparing and transforming data, making it su
 <br><br>
 File: ETL-AWS Glue.md
 
-<b>Step 6: Perform Analysis using Amazon Redshift</b>
+<b>Step 6: Perform Analysis using Amazon Redshift</b><br>
 Amazon Redshift is a fully managed, cloud-based data warehousing service provided by Amazon Web Services (AWS). It's designed for handling large-scale analytics and data warehousing workloads. Data in Redshift is stored in a columnar format, optimizing query performance by only reading the columns necessary for a query, reducing I/O and improving compression. It utilizes a clustered architecture with nodes running in parallel to process and distribute queries across multiple nodes for faster query execution.
 
 File: Redshift.md
