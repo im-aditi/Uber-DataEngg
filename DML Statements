@@ -78,7 +78,7 @@ a.VendorID ,
         a.tip_amount ,
         a.tolls_amount ,
         a.improvement_surcharge ,
-        a.total_amount from uber_fact a
+        a.total_amount from uber_data_dump a
         join date_dim b
         on a.tpep_pickup_datetime = b.date_time
         join date_dim c
